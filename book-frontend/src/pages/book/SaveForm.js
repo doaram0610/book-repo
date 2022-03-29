@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import * as global_variables from '../../js/global_variables';
 
 const SaveForm = () => {
   const navigate = useNavigate();
+  const host = global_variables.BACK_BASE_URL;
 
   //아래 input 값에 입력된 값을 보관하는 상수
   const [book, setBook] = useState({
@@ -20,7 +22,7 @@ const SaveForm = () => {
 
   const submitBook = (e) => {
     e.preventDefault(); //submit 이 action을 안타고 자기 할일을 그만함
-    fetch('http://localhost:8080/book', {
+    fetch(host + '/book', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

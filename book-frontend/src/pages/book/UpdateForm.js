@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
+import * as global_variables from '../../js/global_variables';
 
 const UpdateForm = () => {
   const navigate = useNavigate();
   const params = useParams();
+  const host = global_variables.BACK_BASE_URL;
 
   //아래 input 값에 입력된 값을 보관하는 상수
   const [book, setBook] = useState({
@@ -14,7 +16,7 @@ const UpdateForm = () => {
 
   //백앤드 api 호출
   useEffect(() => {
-    fetch('http://localhost:8080/book/' + params.id)
+    fetch(host + '/book/' + params.id)
       .then((res) => res.json())
       .then((res) => {
         setBook(res); //받은 결과를 저장
@@ -30,7 +32,7 @@ const UpdateForm = () => {
 
   const submitBook = (e) => {
     e.preventDefault(); //submit 이 action을 안타고 자기 할일을 그만함
-    fetch('http://localhost:8080/book/' + params.id, {
+    fetch(host + '/book/' + params.id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
