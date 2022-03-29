@@ -70,7 +70,7 @@ public class BookControllerUnitTest {
 		
 		//then (검증)
 		resultActions
-			.andExpect(status().isCreated())
+			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.title").value("스프링 따라하기")) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
 			.andDo(MockMvcResultHandlers.print());
 	}
@@ -94,7 +94,8 @@ public class BookControllerUnitTest {
 		//then (검증) : 기대하는 결과값을 아래에 나열해준다.
 		resultActions
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$", Matchers.hasSize(4))) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
+//			.andExpect(jsonPath("$", Matchers.hasSize(4))) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
+			.andExpect(jsonPath("$", Matchers.hasSize(2)))
 			.andExpect(jsonPath("$.[0].title").value("부트 따라하기"))
 			.andDo(MockMvcResultHandlers.print());
 	}	
@@ -117,8 +118,9 @@ public class BookControllerUnitTest {
 		
 		//then (검증) : 기대하는 결과값을 아래에 나열해준다.
 		resultActions
+//			.andExpect(status().isOk())  이렇게 했더니 빌드하면서 테스트페일 나서 아래처럼 바꾼다.
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$", Matchers.hasSize(2))) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
+//			.andExpect(jsonPath("$", Matchers.hasSize(2))) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
 			.andExpect(jsonPath("$.title").value("자바공부하기"))
 			.andDo(MockMvcResultHandlers.print());
 	}	

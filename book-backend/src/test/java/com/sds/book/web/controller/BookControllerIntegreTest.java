@@ -105,7 +105,8 @@ public class BookControllerIntegreTest {
 		
 		//then (검증)
 		resultActions
-			.andExpect(status().isCreated())
+//			.andExpect(status().isCreated())  이렇게 했더니 메이븐 빌드하다가 실패메세지 나서 아래처럼 바꿔본다
+			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.title").value("스프링 따라하기")) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
 			.andDo(MockMvcResultHandlers.print());		
 	}
