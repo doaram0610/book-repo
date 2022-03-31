@@ -1,7 +1,6 @@
 package com.sds.book.web.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -19,6 +18,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sds.book.domain.model.Book;
 import com.sds.book.domain.repository.BookRepository;
@@ -45,11 +44,12 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional  //@Test annotation과 함께 설정된 @Transactional은 항상 rollback, 즉 함수 종료되면 롤백된다.
 //@Transactional의 디폴트 값은 롤백 true 이기 때문에 commit 하고 싶으면 @Rollback(value = false)  게 설정하면 된다.
 @AutoConfigureMockMvc  // 단위테스트시에는  @WebMvcTest 에 들어있어서 안해줘두 된다.
-@SpringBootTest(webEnvironment = WebEnvironment.MOCK)
-public class BookControllerIntegreTest {
+@AutoConfigureRestDocs	//요거 붙어 있으면 RestDoc 사용가능하다... 흠.. 잘모르겠따.
+@SpringBootTest(webEnvironment = WebEnvironment.MOCK)	//요건 통합테스트 라는 것
+public class BookControllerIntegreTest  extends AbstractControllerTest{
 
-	@Autowired
-	private MockMvc mockMvc;
+//	@Autowired
+//	private MockMvc mockMvc;
 	
 	@Autowired	//통합테스트에서는 모든 빈이 IoC 되어 있으니 사용가능하다
 	private BookRepository bookRepository;
@@ -135,7 +135,9 @@ public class BookControllerIntegreTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$", Matchers.hasSize(3))) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
 			.andExpect(jsonPath("$.[0].title").value("부트 따라하기"))
-			.andDo(MockMvcResultHandlers.print());
+//			.andDo(MockMvcResultHandlers.print());
+//			.andDo(document(Identifier: "create-event"));
+			.andDo(document);
 	}	
 	
 	

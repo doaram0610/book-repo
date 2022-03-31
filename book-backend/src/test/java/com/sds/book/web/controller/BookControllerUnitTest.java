@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -41,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 //JUNIT5 는  @WebMvcTest 만 붙이면 된다 왜냐면 @ExtendWith(SpringExtension.class) 가 들어가 있다
 
 @Slf4j  //log
-@WebMvcTest
+@WebMvcTest		//요건 단위테스트 라는 것 
 public class BookControllerUnitTest {
 
 	@Autowired  //이렇게 쓸수 있는 이유는 @WebMvcTest에 Mock 가 걸려 있기 때문이다.
@@ -98,6 +97,8 @@ public class BookControllerUnitTest {
 			.andExpect(jsonPath("$", Matchers.hasSize(2)))
 			.andExpect(jsonPath("$.[0].title").value("부트 따라하기"))
 			.andDo(MockMvcResultHandlers.print());
+//			.andDo(document);
+
 	}	
 	
 	

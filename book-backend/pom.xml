@@ -51,7 +51,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>		
+		<!--  RestDoc을 이용하여 adoc 파일 만들기| -->
+		<dependency>
+			<groupId>org.springframework.restdocs</groupId>
+			<artifactId>spring-restdocs-mockmvc</artifactId>
+			<scope>test</scope>
+		</dependency>		
 	</dependencies>
 
 	<build>
@@ -67,7 +73,60 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>			
+			<!-- RestDoc을 이용하여 adoc 파일 만들기| : 1. API 명세서를 html로 변환 -->
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>1.5.7</version>
+				<executions>
+					<execution>
+						<id>generate-docs</id>
+						<!-- "prepare-package" 옵션은 패키지내에 API 문서를 포함할 수 있게 한다. -->
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>html</backend>
+							<doctype>book</doctype>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>			
+					<dependency>
+						<groupId>org.springframework.restdocs</groupId>
+						<artifactId>spring-restdocs-asciidoctor</artifactId>
+						<version>2.0.2.RELEASE</version>
+					</dependency>
+				</dependencies>
 			</plugin>
+			<!-- RestDoc을 이용하여 adoc 파일 만들기| : 2. html 로 변환된 API 명세서를 static 영역으로 복사 -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.outputDirectory}/static/docs
+							</outputDirectory>
+							<resources>
+								<resource>
+									<directory>
+										${project.build.directory}/generated-docs
+									</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>	
 		</plugins>
 	</build>
 
