@@ -50,7 +50,7 @@ const SaveForm = () => {
   return (
     <Form onSubmit={submitBook}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Title</Form.Label>
+        <Form.Label>책제목</Form.Label>
         <Form.Control
           type="text"
           placeholder="Enter Title"
@@ -60,7 +60,7 @@ const SaveForm = () => {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Author</Form.Label>
+        <Form.Label>저자</Form.Label>
         <Form.Control
           type="text"
           placeholder="Enter Author"
@@ -70,7 +70,7 @@ const SaveForm = () => {
       </Form.Group>
 
       <Button variant="primary" type="submit">
-        Submit
+        저장
       </Button>
     </Form>
   );

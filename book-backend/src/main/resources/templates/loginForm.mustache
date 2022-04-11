@@ -1,0 +1,21 @@
+{{>./header}}
+
+<h3>도서 관리자화면 로그인</h3>
+
+<form method="POST" action="/login">
+  <div class="mb-3 mt-3">
+    <label for="userId" class="form-label">아이디:</label>
+    <input type="text" class="form-control" id="username" placeholder="Enter userId" name="username">
+  </div>
+  <div class="mb-3">
+    <label for="userPwd" class="form-label">Password:</label>
+    <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+  </div>
+  <button type="submit" class="btn btn-primary" id="btn-submit">로그인</button>
+  <a href="/oauth2/authorization/google">Google Login</a><!--oauth2client 라이브러리 사용시에 고정주소값-->
+  <a href="/oauth2/authorization/naver">Naver Login</a><!--네이버는 이렇게 호출하면 authorization-uri로 지정된 주소를 호출한다.-->
+</form>
+
+<script src="./js/loginForm.js"></script>
+
+{{>./footer}}

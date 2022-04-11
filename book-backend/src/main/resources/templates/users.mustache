@@ -1,0 +1,55 @@
+{{>./header}}
+
+<h3>회원관리</h3>
+
+<form>
+ <div class="row">
+    <div class="col">
+    <select
+      class="form-control"
+      name="search"
+      id="search"
+    >
+          <option value="userId">아이디</option>
+          <option value="userName">성명</option>
+          <option value="role">권한</option>
+    </select>
+    </div>
+    <div class="col">
+     <input type="searchval" class="form-control" id="searchval" placeholder="Enter value" name="searchval">
+    </div>
+  </div>
+  <div class="row">
+  <div class="col"></div>
+  <div class="col">
+    <button type="button" class="btn btn-primary" id="btn-submit">
+      찾기
+  </button>
+  </div>
+  </div>  
+</form>
+
+<hr />
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>아이디</th>
+      <th>성명</th>
+      <th>권한</th>      
+    </tr>
+  </thead>
+  <tbody id="tbody-books">
+    {{#users}}
+    <tr>
+      <td>{{ userId }}</td>
+      <td>{{ userName }}</td>
+      <td>{{ role }}</td>
+    </tr>
+    {{/users}}
+  </tbody>
+</table>
+
+<script src="../js/users.js"></script>
+
+{{>./footer}}
