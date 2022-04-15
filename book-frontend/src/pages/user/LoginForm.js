@@ -9,8 +9,8 @@ const LoginForm = () => {
 
   //화면에 입력한 값
   const [login, setLogin] = useState({
-    username: '',
-    password: '',
+    userId: '',
+    userPwd: '',
   });
 
   //아이디, 암호값 변경시
@@ -25,8 +25,8 @@ const LoginForm = () => {
   const submitLogin = (e) => {
     e.preventDefault(); //submit 이 action을 안타고 자기 할일을 그만함
 
-    //백앤드호출해서 로그인시키자
-    fetch(host + '/login', {
+    //백앤드호출해서 로그인시키자, 주소는 고정이다.
+    fetch('http://localhost:8080/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -35,20 +35,18 @@ const LoginForm = () => {
     })
       .then((res) => {
         console.log(1, res);
-        if (res.status === '200') {
+
+        if (res.status === 200) {
           alert('로그인 성공!');
-          return res.json();
-        } else {
-          return null;
-        }
-      })
-      .then((res) => {
-        console.log(2, res);
-        if (res !== null) {
+          // return res.json(); //요거하면 뒤단 처리가 안되네
           navigate('/'); //루트로 이동
         } else {
           alert('로그인에 실패하였습니다.');
+          // return null;
         }
+      })
+      .catch((err) => {
+        console.log('err: ' + err);
       });
   };
 
@@ -60,7 +58,7 @@ const LoginForm = () => {
         <Form.Control
           type="text"
           placeholder="아이디를 입력하세요"
-          name="username"
+          name="userId"
           onChange={changeLogin}
         />
       </Form.Group>
@@ -70,7 +68,7 @@ const LoginForm = () => {
         <Form.Control
           type="password"
           placeholder="Password"
-          name="password"
+          name="userPwd"
           onChange={changeLogin}
         />
       </Form.Group>

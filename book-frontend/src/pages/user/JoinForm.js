@@ -21,6 +21,10 @@ const JoinForm = () => {
     });
   };
 
+  const userList = () => {
+    navigate('/userList');
+  };
+
   const submitUser = (e) => {
     e.preventDefault();
 
@@ -41,7 +45,7 @@ const JoinForm = () => {
       })
       .then((res) => {
         if (res !== null) {
-          navigate('/');
+          navigate('/userList');
         } else {
           alert('사용자 등록에 실패하였습니다.');
         }
@@ -50,6 +54,8 @@ const JoinForm = () => {
 
   return (
     <Form onSubmit={submitUser}>
+      <h1>회원등록</h1>
+      <hr />
       <Form.Group className="mb-3" controlId="formBasicId">
         <Form.Label>아이디</Form.Label>
         <Form.Control
@@ -59,7 +65,6 @@ const JoinForm = () => {
           name="userId"
         />
       </Form.Group>
-
       <Form.Group className="mb-3" controlId="formBasicPasssword">
         <Form.Label>암호</Form.Label>
         <Form.Control
@@ -69,7 +74,6 @@ const JoinForm = () => {
           name="userPwd"
         />
       </Form.Group>
-
       <Form.Group className="mb-3" controlId="formBasicName">
         <Form.Label>성명</Form.Label>
         <Form.Control
@@ -79,7 +83,6 @@ const JoinForm = () => {
           name="userName"
         />
       </Form.Group>
-
       <Form.Group className="mb-3" controlId="formBasicRole">
         <Form.Label>권한</Form.Label>
         <Form.Select name="role" onChange={changeValue}>
@@ -88,7 +91,9 @@ const JoinForm = () => {
           <option value="ADMIN">ADMIN</option>
         </Form.Select>
       </Form.Group>
-
+      <Button variant="secondary" onClick={userList}>
+        목록
+      </Button>{' '}
       <Button variant="primary" type="submit">
         저장
       </Button>
