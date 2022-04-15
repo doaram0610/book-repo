@@ -2,6 +2,9 @@ package com.sds.book.domain.model;
 
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,5 +51,11 @@ public class User {
 			this.providerId = providerId;
 		}
 		
-		
+		//권한을 한개 이상 갖은 사용자인경우를 위해 배열로 리턴해준다.
+		public List<String> getRoleList(){
+			if(this.role.length() > 0) {
+				return Arrays.asList(this.role.split(","));	// 권한을 콤마로 구분지어 주면 배열로 리턴 USER,ADMIN
+			}
+			return new ArrayList<>();
+		}
 }
