@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter	{
 				.access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 				.antMatchers("/api/admin/**")
 				.access("hasRole('ROLE_ADMIN')")
-				.anyRequest().permitAll()	//그 외 요청 모두 허용한다. user, book ...
+				.anyRequest().permitAll();	// .authenticated();	//그 외 요청 모두 인증필요
 		;
 		
 		

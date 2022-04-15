@@ -51,6 +51,10 @@ public class UserService {
 		User userEntity = userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("아이디를 확인해라"));
 		userEntity.setUserId(login.getUserId());
 		userEntity.setUserPwd(login.getUserPwd());
+		userEntity.setUserName(login.getUserName());
+		userEntity.setProvider(login.getProvider());
+		userEntity.setProviderId(login.getProviderId());
+		userEntity.setRole(login.getRole());
 		return userEntity;  //여기에 왜 .save 를 안썼냐면 더티체킹을 했기때문이다. findById 를 통해서 DB에서 데이터를 가져오고 트랜잭션안에서 갖고 있는 데이터를 변경했다.
 	}  //그렇게 되면 마지막 리턴시(함수종료)에 변경된데이터를 받으면서 영속화된데이터를 db 로 갱신(flush)하면서 commit 된다. 이것이 더티체킹이다.
 	

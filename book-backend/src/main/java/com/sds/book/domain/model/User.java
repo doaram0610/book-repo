@@ -35,7 +35,7 @@ public class User {
 		
 		//oauth 로그인으로 가입된 회원구분
 		private String provider;		//google, naver
-		private String providerId;	//
+		private String providerId;	
 		
 		@CreationTimestamp
 		private Timestamp upDate;
@@ -52,10 +52,10 @@ public class User {
 		}
 		
 		//권한을 한개 이상 갖은 사용자인경우를 위해 배열로 리턴해준다.
-		public List<String> getRoleList(){
-			if(this.role.length() > 0) {
-				return Arrays.asList(this.role.split(","));	// 권한을 콤마로 구분지어 주면 배열로 리턴 USER,ADMIN
-			}
-			return new ArrayList<>();
-		}
+//		public List<String> getRoleList(){
+//			if(this.role.length() > 0) {
+//				return Arrays.asList(this.role.split(","));	// 권한을 콤마로 구분지어 주면 배열로 리턴 USER,ADMIN
+//			}
+//			return new ArrayList<>();
+//		}
 }
