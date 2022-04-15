@@ -20,6 +20,9 @@ const SaveForm = () => {
     });
   };
 
+  const bookList = () => {
+    navigate('/bookList');
+  };
   const submitBook = (e) => {
     e.preventDefault(); //submit 이 action을 안타고 자기 할일을 그만함
     fetch(host + '/book', {
@@ -32,14 +35,16 @@ const SaveForm = () => {
       .then((res) => {
         console.log(1, res);
         if (res.status === 200) {
+          console.log(2, res);
           return res.json();
         } else {
           return null;
         }
       })
       .then((res) => {
-        console.log(2, res);
+        console.log(3, res);
         if (res !== null) {
+          console.log(4, res);
           navigate('/'); //props.history.push('/'); //이전버전에서 사용하던 내용
         } else {
           alert('책 등록에 실패하였습니다.');
@@ -49,6 +54,8 @@ const SaveForm = () => {
 
   return (
     <Form onSubmit={submitBook}>
+      <h1>도서등록</h1>
+      <hr />
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>책제목</Form.Label>
         <Form.Control
@@ -58,7 +65,6 @@ const SaveForm = () => {
           name="title"
         />
       </Form.Group>
-
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>저자</Form.Label>
         <Form.Control
@@ -68,9 +74,11 @@ const SaveForm = () => {
           name="author"
         />
       </Form.Group>
-
       <Button variant="primary" type="submit">
         저장
+      </Button>{' '}
+      <Button variant="secondary" onClick={bookList}>
+        목록
       </Button>
     </Form>
   );

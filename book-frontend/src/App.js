@@ -8,6 +8,10 @@ import Detail from './pages/book/Detail';
 import UpdateForm from './pages/book/UpdateForm';
 import JoinForm from './pages/user/JoinForm';
 import LoginForm from './pages/user/LoginForm';
+import UserList from './pages/user/UserList';
+import BookList from './pages/book/BookList';
+import UserDetail from './pages/user/UserDetail';
+import UserUpdateForm from './pages/user/UserUpdateForm';
 
 function App() {
   return (
@@ -21,6 +25,10 @@ function App() {
           <Route path="/joinForm" element={<JoinForm />} />
           <Route path="/loginForm" element={<LoginForm />} />
           <Route path="/updateForm/:id" element={<UpdateForm />} />
+          <Route path="/userList" element={<UserList />} />
+          <Route path="/bookList" element={<BookList />} />
+          <Route path="/user/:id" element={<UserDetail />} />
+          <Route path="/userUpdateForm/:id" element={<UserUpdateForm />} />
         </Routes>
       </Container>
     </div>

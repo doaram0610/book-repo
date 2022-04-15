@@ -57,8 +57,14 @@ const UpdateForm = () => {
       }); //catch 는 여기서 오류나야 실행된다
   };
 
+  const cancle = () => {
+    navigate('/book/' + params.id);
+  };
+
   return (
     <Form onSubmit={submitBook}>
+      <h1>도서관리</h1>
+      <hr />
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Title</Form.Label>
         <Form.Control
@@ -69,7 +75,6 @@ const UpdateForm = () => {
           value={book.title}
         />
       </Form.Group>
-
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Author</Form.Label>
         <Form.Control
@@ -80,9 +85,11 @@ const UpdateForm = () => {
           value={book.author}
         />
       </Form.Group>
-
       <Button variant="primary" type="submit">
         수정
+      </Button>{' '}
+      <Button variant="secondary" onClick={cancle}>
+        취소
       </Button>
     </Form>
   );
