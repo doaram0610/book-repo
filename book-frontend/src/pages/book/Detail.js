@@ -31,7 +31,7 @@ const Detail = () => {
       .then((res) => {
         if (res === 'ok') {
           //props.history.push('/'); //요거 안먹는데 라우터 v6 이후부터 아래처럼 해야됨
-          navigate('/');
+          navigate('/bookList');
         } else {
           alert('삭제실패');
         }

@@ -17,7 +17,6 @@ const UserUpdateForm = () => {
     provider: '',
     prividerId: '',
     role: '',
-    update: '',
   });
 
   //백앤드 api 호출
@@ -69,6 +68,20 @@ const UserUpdateForm = () => {
 
   return (
     <Form onSubmit={submitUser}>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>아이디</Form.Label>
+        <Form.Control value={user.userId} disabled />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>암호</Form.Label>
+        <Form.Control
+          type="password"
+          placeholder="Enter Password"
+          onChange={changeValue}
+          name="userPwd"
+          value={user.userPwd}
+        />
+      </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>성명</Form.Label>
         <Form.Control

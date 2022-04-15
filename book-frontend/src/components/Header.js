@@ -4,27 +4,23 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Link to="/" className="navbar-brand">
-            홈
-          </Link>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand href="#home">홈</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Link to="/loginForm" className="nav-link">
-              로그인
-            </Link>
-            <Link to="/userList" className="nav-link">
-              회원관리
-            </Link>
-            <Link to="/bookList" className="nav-link">
-              도서관리
-            </Link>
+            <Nav.Link href="/userList">회원관리</Nav.Link>
+            <Nav.Link href="/bookList">도서관리</Nav.Link>
           </Nav>
-        </Container>
-      </Navbar>
-      <br />
-    </>
+          <Nav>
+            <Nav.Link eventKey={2} href="/loginForm">
+              로그인
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

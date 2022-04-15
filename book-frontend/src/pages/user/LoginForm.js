@@ -39,6 +39,13 @@ const LoginForm = () => {
         if (res.status === 200) {
           alert('로그인 성공!');
           // return res.json(); //요거하면 뒤단 처리가 안되네
+          localStorage.setItem('accessToken', res.headers.get('Authorization'));
+          //받아온 토큰을 헤더에 추가해줘야 하는데.. 그걸 어떻게 하는걸까?
+          // localStorage.setItem('accessToken', res.data.data.accessToken)
+          // localStorage.setItem('refreshToken', res.data.data.refreshToken)
+          // localStorage.setItem('expiredTime', res.data.data.cur_time)
+          // axios.defaults.headers.common['x-access-token'] = res.data.data.accessToken
+
           navigate('/'); //루트로 이동
         } else {
           alert('로그인에 실패하였습니다.');

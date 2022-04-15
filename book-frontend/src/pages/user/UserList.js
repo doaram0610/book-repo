@@ -8,6 +8,7 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
   const host = global_variables.BACK_BASE_URL;
   const navigate = useNavigate();
+  const token = localStorage.getItem('accessToken');
 
   const joinUser = () => {
     navigate('/joinForm');
@@ -16,7 +17,11 @@ const UserList = () => {
   //Home 함수실행시 최초 한번 실행되지만 books가 상태값이 변경되도 실행된다.
   //그러니까 마지막에 빈배열을 함께 넘겨줘야 한다.
   useEffect(() => {
-    fetch(host + '/user')
+    fetch(host + '/user', {
+      headers: {
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((res) => {
         // console.log(1, res);  클릭했을때 이동이 안되니까 지우자
