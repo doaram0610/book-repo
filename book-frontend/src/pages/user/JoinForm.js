@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import * as global_variables from '../../js/global_variables';
+import { API_BASE_URL } from '../../js/ApiConfig';
 
 const JoinForm = () => {
-  const host = global_variables.BACK_BASE_URL;
+  const host = API_BASE_URL + '/api';
   const navigate = useNavigate();
 
   const [user, setUser] = useState({

@@ -10,12 +10,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 import com.sds.book.config.jwt.JwtAuthenticationFilter;
 import com.sds.book.config.jwt.JwtAuthorizationFilter;
 import com.sds.book.config.oauth.PrincipalOauth2UserService;
+import com.sds.book.domain.handler.CustomAuthenticationEntryPoint;
 import com.sds.book.domain.repository.UserRepository;
+import com.sds.book.web.filter.JwtExceptionFilter;
 import com.sds.book.web.filter.MyFilter3;
 
 import lombok.RequiredArgsConstructor;
@@ -47,28 +50,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter	{
 		//이건 내가 별도로 필터를 걸어야 하면 이렇게도 걸수 있고 FilterConfig를 통해서도 걸수 있다.
 		//아래처럼 하면 시큐리티필터전이나 중간에 필터를 실행시킬수 있고 
 		//FilterConfig를 이용하면 시큐리티필터가 모두 끝나고 나서 수행된다.
-//		http.addFilterBefore(new MyFilter3(), SecurityContextPersistenceFilter.class); //내가 만든 필터를 시큐리티필터 이전 (최초)에 실행할거다
+//		http.addFilterBefore(new JwtExceptionFilter(), SecurityContextPersistenceFilter.class); //내가 만든 필터를 시큐리티필터 이전 (최초)에 실행할거다
+		//JwtAuthorizationFilter 전에 필터를 넣어서 토큰 기간 경과 exception 을 받아 처리하고자 한다. 안해도 되네..
+//		http.addFilterBefore(new JwtExceptionFilter(), JwtAuthorizationFilter.class);
 		
 		//JWT를 이용한 로그인 방식 : header에 인증정보를 갖는 토큰을 함께 보내서 이 토큰으로 인증하는 방식
 		http
 			.addFilter(corsConfig.corsFilter())	//@CrossOrigin 은 인증이 없을때 사용할수 있고, 시큐리티필터에 등록 인증이 필요할땐 이렇게 사용해야 한다.
 			.csrf().disable()		// 웹사이트의 호출이 아닌 경우 즉 api 요청일 경우 Cross site Request forgery 처리가 필요없다.
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)	//세션사용안함					
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)	//세션사용안함				
 			.and()			
 			.formLogin().disable()	//api 프론트앤드만 있으니까 form 테그만들어서 사용하는 로그인화면 사용안한다.
-			.httpBasic().disable()	//http 기본 인증방식 사용 안함(특정 리소스에 접근할 때 username과 password를 확인해서 인증해주는 방식)
-			
+			.httpBasic().disable()	//http 기본 인증방식 사용 안함(특정 리소스에 접근할 때 username과 password를 확인해서 인증해주는 방식)		
+			// /login 호출시 토큰을 생성해준다.
 			.addFilter(new JwtAuthenticationFilter(authenticationManager()))	//.formLogin().disable() 하면 PrincipalDetailsService 호출이 안되니까. 대신 UsernamePasswordAuthenticationFilter 를 등록해서 호출해준다.
-			.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))		
-			
+			// 토큰을 받아서 정상인지 확인한다.
+			.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))					
 			.authorizeRequests()	//인증이 필요한 목록을 아래에 적어 놓겠다.
 				.antMatchers("/api/manager/**")
 				.access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 				.antMatchers("/api/admin/**")
 				.access("hasRole('ROLE_ADMIN')")
-				.anyRequest().permitAll();	// .authenticated();	//그 외 요청 모두 인증필요
-		;
-		
+				.anyRequest().permitAll()	// .authenticated();	//그 외 요청 모두 인증필요			
+			;		
 		
 /*
 		//시큐리티로그인 + OAuth2.0 방식
