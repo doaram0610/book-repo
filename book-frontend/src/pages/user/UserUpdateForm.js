@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import * as global_variables from '../../js/global_variables';
+import { API_BASE_URL } from '../../js/ApiConfig';
+import { siginin } from '../../js/ApiService';
 
 const UserUpdateForm = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const host = global_variables.BACK_BASE_URL;
+  const host = API_BASE_URL + '/api';
 
   //아래 input 값에 입력된 값을 보관하는 상수
   const [user, setUser] = useState({
@@ -17,7 +18,6 @@ const UserUpdateForm = () => {
     provider: '',
     prividerId: '',
     role: '',
-    update: '',
   });
 
   //백앤드 api 호출
@@ -69,7 +69,21 @@ const UserUpdateForm = () => {
 
   return (
     <Form onSubmit={submitUser}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3" controlId="userId">
+        <Form.Label>아이디</Form.Label>
+        <Form.Control value={user.userId} disabled />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="userPwd">
+        <Form.Label>암호</Form.Label>
+        <Form.Control
+          type="password"
+          placeholder="Enter Password"
+          onChange={changeValue}
+          name="userPwd"
+          value={user.userPwd}
+        />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="userName">
         <Form.Label>성명</Form.Label>
         <Form.Control
           type="text"
@@ -79,27 +93,27 @@ const UserUpdateForm = () => {
           value={user.userName}
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3" controlId="provider">
         <Form.Label>Provider</Form.Label>
         <Form.Control
           type="text"
           placeholder="Enter Provider"
           onChange={changeValue}
           name="provider"
-          value={user.provider}
+          value={user.provider !== null && user.provider}
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3" controlId="providerId">
         <Form.Label>Provider Id</Form.Label>
         <Form.Control
           type="text"
           placeholder="Enter Provider Id"
           onChange={changeValue}
           name="providerId"
-          value={user.providerId}
+          value={user.providerId !== null && user.providerId}
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3" controlId="role">
         <Form.Label>권한</Form.Label>
         <Form.Control
           type="text"

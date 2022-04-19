@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom'; //react-router-dom버전6 이후부터 props.history.push 사용 못한다
-import * as global_variables from '../../js/global_variables';
+import { API_BASE_URL } from '../../js/ApiConfig';
+import { siginin } from '../../js/ApiService';
 
 const Detail = () => {
   const params = useParams(); //그냥 useParams()로 받으면 오브젝트이다.
@@ -11,7 +12,7 @@ const Detail = () => {
     title: '',
     author: '',
   });
-  const host = global_variables.BACK_BASE_URL;
+  const host = API_BASE_URL + '/api';
 
   console.log('detail', params);
 
@@ -31,7 +32,7 @@ const Detail = () => {
       .then((res) => {
         if (res === 'ok') {
           //props.history.push('/'); //요거 안먹는데 라우터 v6 이후부터 아래처럼 해야됨
-          navigate('/');
+          navigate('/bookList');
         } else {
           alert('삭제실패');
         }

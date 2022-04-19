@@ -17,6 +17,7 @@ import com.sds.book.config.auth.PrincipalDetails;
 import com.sds.book.domain.model.Book;
 import com.sds.book.domain.service.BookService;
 
+import jdk.internal.org.jline.utils.Log;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor //final 이라고 된 객체의 생성자를 자동으로 만들어준다.

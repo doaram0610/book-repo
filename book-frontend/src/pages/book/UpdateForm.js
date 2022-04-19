@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import * as global_variables from '../../js/global_variables';
+import { API_BASE_URL } from '../../js/ApiConfig';
+import { siginin } from '../../js/ApiService';
 
 const UpdateForm = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const host = global_variables.BACK_BASE_URL;
+  const host = API_BASE_URL + '/api';
 
   //아래 input 값에 입력된 값을 보관하는 상수
   const [book, setBook] = useState({

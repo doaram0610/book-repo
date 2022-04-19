@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import * as global_variables from '../../js/global_variables';
+import { API_BASE_URL } from '../../js/ApiConfig';
+import { siginin } from '../../js/ApiService';
 
 const SaveForm = () => {
   const navigate = useNavigate();
-  const host = global_variables.BACK_BASE_URL;
+  const host = API_BASE_URL + '/api';
 
   //아래 input 값에 입력된 값을 보관하는 상수
   const [book, setBook] = useState({
@@ -45,7 +46,7 @@ const SaveForm = () => {
         console.log(3, res);
         if (res !== null) {
           console.log(4, res);
-          navigate('/'); //props.history.push('/'); //이전버전에서 사용하던 내용
+          navigate('/bookList'); //props.history.push('/'); //이전버전에서 사용하던 내용
         } else {
           alert('책 등록에 실패하였습니다.');
         }

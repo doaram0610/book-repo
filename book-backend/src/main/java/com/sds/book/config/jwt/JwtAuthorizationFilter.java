@@ -6,17 +6,22 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.helpers.PrintConversionEventImpl;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.sds.book.config.auth.PrincipalDetails;
+import com.sds.book.domain.handler.GlobalExceptionHandler;
 import com.sds.book.domain.model.User;
 import com.sds.book.domain.repository.UserRepository;
 
@@ -45,8 +50,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		String jwtHeader = request.getHeader("Authorization");
 		log.info("jwtHeader : "+jwtHeader);
 		
-		//header가 있는지
+		//로그인화면에서 호출한 경우에는 토큰이 없다 그러니 정상적으로 흘러가도록 한다.
 		if(jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
+//			response.sendError(HttpStatus.BAD_REQUEST.value(), "토큰이 없다!");
 			chain.doFilter(request, response);
 			return;
 		}
@@ -56,9 +62,18 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");		
 		log.info("jwtToken : "+jwtToken);
 		
-		String userId = JWT.require(Algorithm.HMAC512("jjang")).build()
+		String userId = null;
+		try {
+			userId = JWT.require(Algorithm.HMAC512("jjang")).build()
 				.verify(jwtToken)
 				.getClaim("userId").asString();
+		}catch(TokenExpiredException e) {
+			log.info("토큰 서명 중 에러 1: "+e.getMessage());
+			response.sendError(HttpStatus.FORBIDDEN.value(), "만료된 토큰");
+		}catch(JWTDecodeException e) {
+			log.info("토큰 서명 중 에러 2: "+e.getMessage());
+			response.sendError(HttpStatus.BAD_REQUEST.value(), "토큰이 없다");
+		}
 		
 		log.info("jwtHeader.userId : "+userId);
 		
