@@ -48,136 +48,136 @@ public class BookControllerUnitTest {
 	
 	@MockBean  //IoC환경에 빈이 등록됨, 가짜 BookService 를 띄우는거나 에러만 안나게 (통합테스트는 필요없다 단위테스트만 필요)
 	private BookService bookService;
-	
-	//BDDMocito 패턴
-	@Test
-	public void save_test() throws Exception {
-		log.info("save test start ===================================");
-		
-		//given (테스트를 하기 위한 준비)
-		Book book = new Book(null, "스프링 따라하기", "코스");
-		String content = new ObjectMapper().writeValueAsString(book);  //json 데이터로 리턴
-		
-		//stub - 동작지정
-		when(bookService.Save(book)).thenReturn(new Book(1L, "스프링 따라하기", "코스"));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
-		
-		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(post("/manager/book")
-				.contentType(MediaType.APPLICATION_JSON_UTF8)  //내가 던져주는 데이터의 타입
-				.content(content) //내가 주는 데이터
-				.accept(MediaType.APPLICATION_JSON_UTF8));  //내가 기대하는 데이터의 타입
-		
-		//then (검증)
-		resultActions
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.title").value("스프링 따라하기")) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
-			.andDo(MockMvcResultHandlers.print());
-	}
-	
-	@Test
-	public void findAll_test() throws Exception {
-		log.info("save test start ===================================");
-		
-		//given (테스트를 하기 위한 준비)
-		List<Book> books = new ArrayList<>();
-		books.add(new Book(1L, "부트 따라하기", "코스"));
-		books.add(new Book(2L, "리엑트 따라하기", "코스"));
-
-		//stub - 동작지정
-		when(bookService.ListAll()).thenReturn(books);  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
-		
-		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(get("/manager/book")
-				.accept(MediaType.APPLICATION_JSON_UTF8));
-		
-		//then (검증) : 기대하는 결과값을 아래에 나열해준다.
-		resultActions
-			.andExpect(status().isOk())
-//			.andExpect(jsonPath("$", Matchers.hasSize(4))) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
-			.andExpect(jsonPath("$", Matchers.hasSize(2)))
-			.andExpect(jsonPath("$.[0].title").value("부트 따라하기"))
-			.andDo(MockMvcResultHandlers.print());
-//			.andDo(document);
-
-	}	
-	
-	
-	@Test
-	public void findById_test() throws Exception {
-		log.info("save test start ===================================");
-		
-		//given (테스트를 하기 위한 준비)
-		Long id = 1L;
-		Book book = new Book(1L, "자바공부하기", "쌀");
-		
-		//stub - 동작지정
-		when(bookService.Select(id)).thenReturn(book);  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
-		
-		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(get("/manager/book/{id}", id)
-				.accept(MediaType.APPLICATION_JSON_UTF8));
-		
-		//then (검증) : 기대하는 결과값을 아래에 나열해준다.
-		resultActions
-//			.andExpect(status().isOk())  이렇게 했더니 빌드하면서 테스트페일 나서 아래처럼 바꾼다.
-			.andExpect(status().isOk())
-//			.andExpect(jsonPath("$", Matchers.hasSize(2))) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
-			.andExpect(jsonPath("$.title").value("자바공부하기"))
-			.andDo(MockMvcResultHandlers.print());
-	}	
-	
-
-	@Test
-	public void update_test() throws Exception {
-		log.info("save test start ===================================");
-		
-		
-		//given (테스트를 하기 위한 준비)
-		Long id = 1L;
-		Book book = new Book(null, "C++ 따라하기", "코스");
-		String content = new ObjectMapper().writeValueAsString(book);  //테스트할 데이터를 json 데이터로 리턴
-		
-		//stub - 동작지정
-		when(bookService.Update(id, book)).thenReturn(new Book(1L, "C++ 따라하기", "코스"));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
-		
-		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(put("/manager/book/{id}", id)
-				.contentType(MediaType.APPLICATION_JSON_UTF8)  //내가 던져주는 데이터의 타입
-				.content(content) //내가 주는 데이터
-				.accept(MediaType.APPLICATION_JSON_UTF8));  //내가 기대하는 데이터의 타입
-		
-		//then (검증)
-		resultActions
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.title").value("C++ 따라하기")) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
-			.andDo(MockMvcResultHandlers.print());
-	}	
-	
-	
-	@Test
-	public void delete_test() throws Exception {
-		log.info("save test start ===================================");
-		
-		
-		//given (테스트를 하기 위한 준비)
-		Long id = 1L;
-		
-		//stub - 동작지정
-		when(bookService.Delete(id)).thenReturn("ok");  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
-		
-		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(delete("/manager/book/{id}", id)
-				.accept(MediaType.TEXT_PLAIN));  //내가 기대하는 데이터의 타입
-		
-		//then (검증)
-		resultActions
-			.andExpect(status().isOk())
-			.andDo(MockMvcResultHandlers.print());
-		
-		MvcResult requestResult = resultActions.andReturn();
-		String result = requestResult.getResponse().getContentAsString();
-		
-		assertEquals("ok", result);
-	}	
-	
+//	
+//	//BDDMocito 패턴
+//	@Test
+//	public void save_test() throws Exception {
+//		log.info("save test start ===================================");
+//		
+//		//given (테스트를 하기 위한 준비)
+//		Book book = new Book(null, "스프링 따라하기", "코스");
+//		String content = new ObjectMapper().writeValueAsString(book);  //json 데이터로 리턴
+//		
+//		//stub - 동작지정
+//		when(bookService.Save(book)).thenReturn(new Book(1L, "스프링 따라하기", "코스"));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
+//		
+//		//when (테스트 실행)
+//		ResultActions resultActions = mockMvc.perform(post("/manager/book")
+//				.contentType(MediaType.APPLICATION_JSON_UTF8)  //내가 던져주는 데이터의 타입
+//				.content(content) //내가 주는 데이터
+//				.accept(MediaType.APPLICATION_JSON_UTF8));  //내가 기대하는 데이터의 타입
+//		
+//		//then (검증)
+//		resultActions
+//			.andExpect(status().isOk())
+//			.andExpect(jsonPath("$.title").value("스프링 따라하기")) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
+//			.andDo(MockMvcResultHandlers.print());
+//	}
+//	
+//	@Test
+//	public void findAll_test() throws Exception {
+//		log.info("save test start ===================================");
+//		
+//		//given (테스트를 하기 위한 준비)
+//		List<Book> books = new ArrayList<>();
+//		books.add(new Book(1L, "부트 따라하기", "코스"));
+//		books.add(new Book(2L, "리엑트 따라하기", "코스"));
+//
+//		//stub - 동작지정
+//		when(bookService.ListAll()).thenReturn(books);  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
+//		
+//		//when (테스트 실행)
+//		ResultActions resultActions = mockMvc.perform(get("/manager/book")
+//				.accept(MediaType.APPLICATION_JSON_UTF8));
+//		
+//		//then (검증) : 기대하는 결과값을 아래에 나열해준다.
+//		resultActions
+//			.andExpect(status().isOk())
+////			.andExpect(jsonPath("$", Matchers.hasSize(4))) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
+//			.andExpect(jsonPath("$", Matchers.hasSize(2)))
+//			.andExpect(jsonPath("$.[0].title").value("부트 따라하기"))
+//			.andDo(MockMvcResultHandlers.print());
+////			.andDo(document);
+//
+//	}	
+//	
+//	
+//	@Test
+//	public void findById_test() throws Exception {
+//		log.info("save test start ===================================");
+//		
+//		//given (테스트를 하기 위한 준비)
+//		Long id = 1L;
+//		Book book = new Book(1L, "자바공부하기", "쌀");
+//		
+//		//stub - 동작지정
+//		when(bookService.Select(id)).thenReturn(book);  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
+//		
+//		//when (테스트 실행)
+//		ResultActions resultActions = mockMvc.perform(get("/manager/book/{id}", id)
+//				.accept(MediaType.APPLICATION_JSON_UTF8));
+//		
+//		//then (검증) : 기대하는 결과값을 아래에 나열해준다.
+//		resultActions
+////			.andExpect(status().isOk())  이렇게 했더니 빌드하면서 테스트페일 나서 아래처럼 바꾼다.
+//			.andExpect(status().isOk())
+////			.andExpect(jsonPath("$", Matchers.hasSize(2))) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
+//			.andExpect(jsonPath("$.title").value("자바공부하기"))
+//			.andDo(MockMvcResultHandlers.print());
+//	}	
+//	
+//
+//	@Test
+//	public void update_test() throws Exception {
+//		log.info("save test start ===================================");
+//		
+//		
+//		//given (테스트를 하기 위한 준비)
+//		Long id = 1L;
+//		Book book = new Book(null, "C++ 따라하기", "코스");
+//		String content = new ObjectMapper().writeValueAsString(book);  //테스트할 데이터를 json 데이터로 리턴
+//		
+//		//stub - 동작지정
+//		when(bookService.Update(id, book)).thenReturn(new Book(1L, "C++ 따라하기", "코스"));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
+//		
+//		//when (테스트 실행)
+//		ResultActions resultActions = mockMvc.perform(put("/manager/book/{id}", id)
+//				.contentType(MediaType.APPLICATION_JSON_UTF8)  //내가 던져주는 데이터의 타입
+//				.content(content) //내가 주는 데이터
+//				.accept(MediaType.APPLICATION_JSON_UTF8));  //내가 기대하는 데이터의 타입
+//		
+//		//then (검증)
+//		resultActions
+//			.andExpect(status().isOk())
+//			.andExpect(jsonPath("$.title").value("C++ 따라하기")) //jsonPath 찾아보면 검색할 키워드를 입력하는 문법을 알수 있따
+//			.andDo(MockMvcResultHandlers.print());
+//	}	
+//	
+//	
+//	@Test
+//	public void delete_test() throws Exception {
+//		log.info("save test start ===================================");
+//		
+//		
+//		//given (테스트를 하기 위한 준비)
+//		Long id = 1L;
+//		
+//		//stub - 동작지정
+//		when(bookService.Delete(id)).thenReturn("ok");  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
+//		
+//		//when (테스트 실행)
+//		ResultActions resultActions = mockMvc.perform(delete("/manager/book/{id}", id)
+//				.accept(MediaType.TEXT_PLAIN));  //내가 기대하는 데이터의 타입
+//		
+//		//then (검증)
+//		resultActions
+//			.andExpect(status().isOk())
+//			.andDo(MockMvcResultHandlers.print());
+//		
+//		MvcResult requestResult = resultActions.andReturn();
+//		String result = requestResult.getResponse().getContentAsString();
+//		
+//		assertEquals("ok", result);
+//	}	
+//	
 }

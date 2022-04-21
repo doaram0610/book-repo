@@ -16,7 +16,7 @@ public class CorsConfig {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);	//서버가 응답할때 json을 자바스크립트에서 처리할수 있게 할지 설정
-		config.addAllowedOriginPattern("http://localhost:3000");  //config.addAllowedOrigin("*");		//모든 ip 응답을 허용, 버전업 되서 이젠 이거 사용 못한다.
+		config.addAllowedOriginPattern("*");  //config.addAllowedOrigin("*");		//모든 ip 응답을 허용, 버전업 되서 이젠 이거 사용 못한다.
 		config.addAllowedHeader("*");	//모든 header에 응답을 허용
 		config.addAllowedMethod("*");	//모든 post, get, put, delete, patch 요청을 허용
 		config.addExposedHeader("*");	//프론트앤드가 리액트일때 이거 선언안하면 통과 못한다. 그런데 이것만 해서는 안되네.. 멀또 해야 되지? 아래 모든 주소를 포함하는걸로 수정해야됨
