@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../js/ApiConfig';
+import { callApi } from '../../js/ApiService';
 
 const JoinForm = () => {
   const host = API_BASE_URL + '/api';
@@ -28,27 +29,14 @@ const JoinForm = () => {
   const submitUser = (e) => {
     e.preventDefault();
 
-    fetch(host + '/user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: JSON.stringify(user),
-    })
+    callApi('/api/user', 'POST', user)
       .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          return res.json();
-        } else {
-          return null;
-        }
+        alert('사용자 등록에 성공하였습니다.');
+        navigate('/userList');
       })
-      .then((res) => {
-        if (res !== null) {
-          navigate('/userList');
-        } else {
-          alert('사용자 등록에 실패하였습니다.');
-        }
+      .catch((err) => {
+        console.log('err: ' + err);
+        alert('사용자 등록에 실패하였습니다.');
       });
   };
 

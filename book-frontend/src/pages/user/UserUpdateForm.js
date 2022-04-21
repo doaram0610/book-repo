@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL } from '../../js/ApiConfig';
-import { siginin } from '../../js/ApiService';
+import { callApi, siginin } from '../../js/ApiService';
 
 const UserUpdateForm = () => {
   const navigate = useNavigate();
@@ -38,29 +38,17 @@ const UserUpdateForm = () => {
 
   const submitUser = (e) => {
     e.preventDefault(); //submit 이 action을 안타고 자기 할일을 그만함
-    fetch(host + '/user/' + params.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: JSON.stringify(user), //json 객체로 만든다
-    })
+
+    //공통함수를 통해 api를 호출한다.
+    callApi('/api/user', 'PUT', user)
       .then((res) => {
-        console.log(1, res);
-        if (res.status === 200) {
-          return res.json();
-        } else {
-          return null;
-        }
+        alert('회원 등록에 성공하였습니다.');
+        navigate('/user/' + params.id); //v6 이하버전에서는 props.history 를 썼다
       })
-      .then((res) => {
-        console.log(2, res);
-        if (res !== null) {
-          navigate('/user/' + params.id); //v6 이하버전에서는 props.history 를 썼다
-        } else {
-          alert('회원 등록에 실패하였습니다.');
-        }
-      }); //catch 는 여기서 오류나야 실행된다
+      .catch((err) => {
+        console.log('err: ' + err);
+        alert('회원 등록에 실패하였습니다.');
+      });
   };
 
   const userList = () => {

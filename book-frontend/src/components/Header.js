@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { signout } from '../js/ApiService';
 
 const Header = () => {
   return (
@@ -16,6 +17,9 @@ const Header = () => {
           <Nav>
             <Nav.Link eventKey={2} href="/loginForm">
               로그인
+            </Nav.Link>
+            <Nav.Link eventKey={2} onClick={signout}>
+              로그아웃
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

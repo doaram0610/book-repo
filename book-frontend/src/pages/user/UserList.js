@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Button, Stack, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import UserItem from '../../components/UserItem';
-import { API_BASE_URL } from '../../js/ApiConfig';
-import { siginin } from '../../js/ApiService';
+import { callApi, siginin } from '../../js/ApiService';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
-  const host = API_BASE_URL + '/api';
   const navigate = useNavigate();
-  const token = localStorage.getItem('accessToken');
 
+  //회원가입 이동
   const joinUser = () => {
     navigate('/joinForm');
   };
@@ -18,23 +16,14 @@ const UserList = () => {
   //Home 함수실행시 최초 한번 실행되지만 books가 상태값이 변경되도 실행된다.
   //그러니까 마지막에 빈배열을 함께 넘겨줘야 한다.
   useEffect(() => {
-    fetch(host + '/user', {
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then((res) => res.json()) //머야 왜 이거 안하면 데이터 못가져오는데..await 안쓸땐 이렇게 해야 한다.
+    callApi('/api/user', 'GET', null)
       .then((res) => {
-        // console.log(1, res);
+        //응답이 정상이면 여기로 리턴받을수 있다
         setUsers(res); //users 객체에 결과값을 담는다
       })
       .catch((err) => {
-        console.log('err:' + err);
-        // navigate('/loginForm');
+        console.log('err: ' + err);
       });
-    // .catch((err) => {
-    //   console.log('err: ' + err);
-    // }) //비동기함수(이 작업이 끝나길 기다리지 않구 다른 작업 하다가 이 작업이 끝나면 받아서 처리하는 방식)
   }, []); //빈배열을 넣어 한번만 수행되도록 한다.*중요*
 
   return (

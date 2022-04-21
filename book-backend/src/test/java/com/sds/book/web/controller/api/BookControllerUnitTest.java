@@ -1,4 +1,4 @@
-package com.sds.book.web.controller;
+package com.sds.book.web.controller.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -62,7 +62,7 @@ public class BookControllerUnitTest {
 		when(bookService.Save(book)).thenReturn(new Book(1L, "스프링 따라하기", "코스"));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
 		
 		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(post("/manager/book")
+		ResultActions resultActions = mockMvc.perform(post("/api/book")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)  //내가 던져주는 데이터의 타입
 				.content(content) //내가 주는 데이터
 				.accept(MediaType.APPLICATION_JSON_UTF8));  //내가 기대하는 데이터의 타입
@@ -87,7 +87,7 @@ public class BookControllerUnitTest {
 		when(bookService.ListAll()).thenReturn(books);  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
 		
 		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(get("/manager/book")
+		ResultActions resultActions = mockMvc.perform(get("/api/book")
 				.accept(MediaType.APPLICATION_JSON_UTF8));
 		
 		//then (검증) : 기대하는 결과값을 아래에 나열해준다.
@@ -114,7 +114,7 @@ public class BookControllerUnitTest {
 		when(bookService.Select(id)).thenReturn(book);  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
 		
 		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(get("/manager/book/{id}", id)
+		ResultActions resultActions = mockMvc.perform(get("/api/book/{id}", id)
 				.accept(MediaType.APPLICATION_JSON_UTF8));
 		
 		//then (검증) : 기대하는 결과값을 아래에 나열해준다.
@@ -141,7 +141,7 @@ public class BookControllerUnitTest {
 		when(bookService.Update(id, book)).thenReturn(new Book(1L, "C++ 따라하기", "코스"));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
 		
 		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(put("/manager/book/{id}", id)
+		ResultActions resultActions = mockMvc.perform(put("/api/book/{id}", id)
 				.contentType(MediaType.APPLICATION_JSON_UTF8)  //내가 던져주는 데이터의 타입
 				.content(content) //내가 주는 데이터
 				.accept(MediaType.APPLICATION_JSON_UTF8));  //내가 기대하는 데이터의 타입
@@ -166,7 +166,7 @@ public class BookControllerUnitTest {
 		when(bookService.Delete(id)).thenReturn("ok");  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
 		
 		//when (테스트 실행)
-		ResultActions resultActions = mockMvc.perform(delete("/manager/book/{id}", id)
+		ResultActions resultActions = mockMvc.perform(delete("/api/book/{id}", id)
 				.accept(MediaType.TEXT_PLAIN));  //내가 기대하는 데이터의 타입
 		
 		//then (검증)
