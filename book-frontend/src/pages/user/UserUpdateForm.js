@@ -43,7 +43,7 @@ const UserUpdateForm = () => {
     callApi('/api/user', 'PUT', user)
       .then((res) => {
         alert('회원 등록에 성공하였습니다.');
-        navigate('/user/' + params.id); //v6 이하버전에서는 props.history 를 썼다
+        navigate('/api/user/' + params.id); //v6 이하버전에서는 props.history 를 썼다
       })
       .catch((err) => {
         console.log('err: ' + err);
@@ -52,7 +52,7 @@ const UserUpdateForm = () => {
   };
 
   const userList = () => {
-    navigate('/user/' + user.userId);
+    navigate('/userList/' + user.userId);
   };
 
   return (

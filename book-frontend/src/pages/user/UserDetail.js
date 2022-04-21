@@ -44,11 +44,11 @@ const UserDetail = () => {
 
   const updateUser = () => {
     // props.history.push('/updateForm/' + id);
-    navigate('/userUpdateForm/' + params.id);
+    navigate('/api/userUpdateForm/' + params.id);
   };
 
   const userList = () => {
-    navigate('/userList');
+    navigate('/api/userList');
   };
 
   return (
