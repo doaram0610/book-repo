@@ -52,7 +52,7 @@ const UserUpdateForm = () => {
   };
 
   const userList = () => {
-    navigate('/userList/' + user.userId);
+    navigate('/user/' + user.userId);
   };
 
   return (
