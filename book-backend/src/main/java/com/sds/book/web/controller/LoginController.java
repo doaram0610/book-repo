@@ -40,7 +40,7 @@ public class LoginController {
 		//뒤에 주소붙이는건 안되니 ... 하지만 아마도 삼성은 내부서비스 호출 주소가 같으니까. 그 뒤에 주소까지도 넣을수 있게 구현했을거다. 
 		@GetMapping({"/", ""})
 		public String index(){
-			return "redirect:manager/books";
+			return "login";
 		}		
 		
 		//@AuthenticationPrincipal   어노테이션은 시큐리티세션값을 가져오는 방법이다.
