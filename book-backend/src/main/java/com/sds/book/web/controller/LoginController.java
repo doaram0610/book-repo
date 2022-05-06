@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,7 +39,7 @@ public class LoginController {
 		//구글,네이버 로그인 완료되면 호출되는걸 지정할수가 없고 무조건 루트를 호출하게 되는거 같아서 내가 원하는 페이지로 리다이렉트했다.
 		//네이버, 구글 모두 로그인성공 후 호출되는 주소는 도메인:포트 까지만 된다. 하나의 도메인에 하나의 api를 지원하기 위해서인것 같다.
 		//뒤에 주소붙이는건 안되니 ... 하지만 아마도 삼성은 내부서비스 호출 주소가 같으니까. 그 뒤에 주소까지도 넣을수 있게 구현했을거다. 
-		@GetMapping({"/", ""})
+		@PostMapping({"/", ""})
 		public String index(){
 			return "login";
 		}		

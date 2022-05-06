@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../js/ApiConfig';
+import { userLogin } from '../../js/ApiService';
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const host = API_BASE_URL;
+  const dispatch = useDispatch();
 
   //화면에 입력한 값
   const [login, setLogin] = useState({
@@ -26,7 +28,7 @@ const LoginForm = () => {
     e.preventDefault(); //submit 이 action을 안타고 자기 할일을 그만함
 
     //백앤드호출해서 로그인시키자, 주소는 고정이다.
-    fetch(host + '/login', {
+    fetch(API_BASE_URL + '/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -38,22 +40,27 @@ const LoginForm = () => {
 
         if (res.status === 200) {
           alert('로그인 성공!');
-          // return res.json(); //요거하면 뒤단 처리가 안되네
-          //백앤드에서 헤더에 토큰넣어서 보냈으니 아래처럼 받으면 된다.
-          localStorage.setItem('accessToken', res.headers.get('Authorization'));
+          localStorage.setItem(
+            'Authorization',
+            res.headers.get('Authorization'),
+          );
           // localStorage.setItem('accessToken', res.data.data.accessToken)
           // localStorage.setItem('refreshToken', res.data.data.refreshToken)
           // localStorage.setItem('expiredTime', res.data.data.cur_time)
           // axios.defaults.headers.common['x-access-token'] = res.data.data.accessToken
-
-          navigate('/'); //루트로 이동
         } else {
           alert('로그인에 실패하였습니다.');
           // return null;
         }
+        return res.json();
+      })
+      .then((json) => {
+        console.log('로그인 성공', json);
+        dispatch(userLogin(json.data));
+        navigate('/'); //루트로 이동
       })
       .catch((err) => {
-        console.log('err: ' + err);
+        console.log('LoginForm Error:', err);
       });
   };
 

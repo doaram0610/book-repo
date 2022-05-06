@@ -1,6 +1,7 @@
 package com.sds.book.config.jwt;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 import javax.servlet.FilterChain;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sds.book.config.auth.PrincipalDetails;
 import com.sds.book.domain.model.User;
+import com.sds.book.web.dto.CmResponseDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -100,9 +102,24 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				.withClaim("userName", principalDetails.getUser().getUserName())
 				.sign(Algorithm.HMAC512("jjang"));		// 서버에서 토큰을 검증할때 이 값으로 확인한다.
 		
+		//리턴하는 헤더랑 타입
 		response.addHeader("Authorization", "Bearer "+jwtToken);		//프론트앤드에 응답해주는 값에 추가하는거다
+		response.setContentType("application/json; charset=utf-8");
 		
 		log.info("response.addHeader : "+ response.getHeader("Authorization"));
+		
+		//리턴하는 body 값
+		CmResponseDto<User> cmResponseDto = new CmResponseDto<>(200, "성공",  
+				User.builder().userId(principalDetails.getUser().getUserId())
+										.userName(principalDetails.getUser().getUserName())
+										.role(principalDetails.getUser().getRole())
+										.build()
+				);
+		ObjectMapper om = new ObjectMapper();
+		String cmRespDtoJson = om.writeValueAsString(cmResponseDto);
+		PrintWriter out = response.getWriter();
+		out.print(cmRespDtoJson);
+		out.flush();
 		
 		//아래 한줄 때문에  응답으로 보내고 멈춰야 하는데 자꾸 로컬호스트 /루트가 호출됐었다! 그래서 헤더값확인이 안됐었다. 
 //		super.successfulAuthentication(request, response, chain, authResult);
