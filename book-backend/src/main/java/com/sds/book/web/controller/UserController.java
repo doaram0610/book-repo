@@ -37,6 +37,12 @@ public class UserController {
 	@Autowired
 	private final UserService userService;
 	
+	//관리자의 index 화면
+	@GetMapping("/users")
+	public String goUsers(){
+		return "users";
+	}	
+	
 	//회원가입
 	@GetMapping("/userForm")
 	public String userForm(){
