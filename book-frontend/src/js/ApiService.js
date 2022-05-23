@@ -20,8 +20,8 @@ export async function callApi(api, method, request) {
   return fetch(options.url, options)
     .then((res) =>
       res.json().then((json) => {
-        console.log('공통함수(res) : ', res);
-        console.log('공통함수(json) : ', json);
+        console.log('1.공통함수(res) : ', res);
+        console.log('2.공통함수(json) : ', json);
         //정상응답이 아니면 응답내용을 catch 로 보내기 위해 아래와 같이 추가
         if (res.status !== 200) {
           return Promise.reject(res);
@@ -31,7 +31,7 @@ export async function callApi(api, method, request) {
       }),
     )
     .catch((err) => {
-      console.log('공통함수(Error) : ', err);
+      console.log('3.공통함수(Error) : ', err);
       if (err.status === 403) {
         window.location.href = '/loginForm';
       }
@@ -86,6 +86,7 @@ export const userLogout = () => {
 const initstate = {
   isLogin: false,
   user: {
+    id: 0,
     userId: '',
     userName: '',
     role: '',
@@ -100,6 +101,7 @@ const reducer = (state = initstate, action) => {
       return {
         isLogin: false,
         user: {
+          id: 0,
           userId: '',
           userName: '',
           role: '',

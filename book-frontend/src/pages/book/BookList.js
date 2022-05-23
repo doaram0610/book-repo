@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Stack } from 'react-bootstrap';
+import { Accordion, Button, Stack } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import BookItem from '../../components/BookItem';
 import { callApi } from '../../js/ApiService';
@@ -26,18 +26,20 @@ const BookList = () => {
   };
 
   return (
-    <div>
-      <h1>도서관리</h1>
+    <>
+      <h1>도서검색</h1>
       <hr />
       <Stack gap={2}>
         <Button variant="primary" className="ms-auto" onClick={saveForm}>
-          도서등록
+          조회
         </Button>
         <div className="d-grid gap-2"></div>
       </Stack>
-      {books.length > 0 &&
-        books.map((book) => <BookItem key={book.id} book={book} />)}
-    </div>
+      <Accordion flush>
+        {books.length > 0 &&
+          books.map((book) => <BookItem key={book.id} book={book} />)}
+      </Accordion>
+    </>
   );
 };
 

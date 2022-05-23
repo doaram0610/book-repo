@@ -42,7 +42,8 @@ public class User {
 
 		//builder 패턴을 이용해서 생성할수 있게 해준다.
 		@Builder
-		public User(String userId, String userPwd, String userName, String role, String provider, String providerId) {
+		public User( long Id, String userId, String userPwd, String userName, String role, String provider, String providerId) {
+			this.Id = Id;
 			this.userId = userId;
 			this.userPwd = userPwd;
 			this.userName = userName;

@@ -41,7 +41,7 @@ public class BookServiceUnitTest {
 	public void save_test() throws Exception {
 		
 		//given (테스트를 하기 위한 준비)
-		Book book = new Book(null, "스프링 따라하기", "코스");
+		Book book = new Book(null, "스프링 따라하기", "코스", 5, 0);
 		String content = new ObjectMapper().writeValueAsString(book);  //json 데이터로 리턴
 		
 		//stub - 동작지정

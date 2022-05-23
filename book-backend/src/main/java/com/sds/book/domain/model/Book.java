@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,12 @@ public class Book {
 	
 	private String title;
 	private String author;
+	private int quantity;
+	private int  borrow;
+	
+	@Builder
+	public Book(Long Id,  int  borrow) {
+		this.Id = Id;
+		this.borrow = borrow;		
+	}
 }

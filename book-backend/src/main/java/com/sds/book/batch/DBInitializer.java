@@ -21,8 +21,8 @@ public class DBInitializer {
 	public CommandLineRunner initDB(UserRepository userRepository, BookRepository bookRepository) {
 		return(args) -> {
 			List<Book> books = new ArrayList<>();
-			books.add(new Book(1L, "홍길동전","김말동"));
-			books.add(new Book(2L, "춘향전","김개똥"));
+			books.add(new Book(1L, "노후 이렇게만 하면 잘먹고 잘살수 있다","김투자", 5, 0));
+			books.add(new Book(2L, "제2의 직업! 어떻게 구할 것인가, 실전!","이말년", 5, 0));
 			bookRepository.saveAll(books);
 			
 			List<User> users = new ArrayList<>();

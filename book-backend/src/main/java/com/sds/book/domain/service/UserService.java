@@ -6,12 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sds.book.domain.model.User;
 import com.sds.book.domain.repository.UserRepository;
 
+import jdk.internal.org.jline.utils.Log;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 
 
 //기능을 정의하고 트랜잭션을 관리할 수 있다.
-
+@Slf4j
 @RequiredArgsConstructor  //finall 이 붙어있는 함수의 생성자를 만들어 준다. 찾아바라
 @Service
 public class UserService {
@@ -50,7 +52,11 @@ public class UserService {
 		
 		User userEntity = userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("아이디를 확인해라"));
 		userEntity.setUserId(login.getUserId());
-		userEntity.setUserPwd(login.getUserPwd());
+		
+		log.info("UserService.Update="+ login.getUserPwd());
+		if(login.getUserPwd() != null && !"".equals(login.getUserPwd())) {
+			userEntity.setUserPwd(login.getUserPwd());
+		}
 		userEntity.setUserName(login.getUserName());
 		userEntity.setProvider(login.getProvider());
 		userEntity.setProviderId(login.getProviderId());

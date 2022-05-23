@@ -55,11 +55,11 @@ public class BookControllerUnitTest {
 		log.info("save test start ===================================");
 		
 		//given (테스트를 하기 위한 준비)
-		Book book = new Book(null, "스프링 따라하기", "코스");
+		Book book = new Book(null, "스프링 따라하기", "코스", 5, 0);
 		String content = new ObjectMapper().writeValueAsString(book);  //json 데이터로 리턴
 		
 		//stub - 동작지정
-		when(bookService.Save(book)).thenReturn(new Book(1L, "스프링 따라하기", "코스"));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
+		when(bookService.Save(book)).thenReturn(new Book(1L, "스프링 따라하기", "코스", 5, 0));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
 		
 		//when (테스트 실행)
 		ResultActions resultActions = mockMvc.perform(post("/book")
@@ -80,8 +80,8 @@ public class BookControllerUnitTest {
 		
 		//given (테스트를 하기 위한 준비)
 		List<Book> books = new ArrayList<>();
-		books.add(new Book(1L, "부트 따라하기", "코스"));
-		books.add(new Book(2L, "리엑트 따라하기", "코스"));
+		books.add(new Book(1L, "부트 따라하기", "코스", 5, 0));
+		books.add(new Book(2L, "리엑트 따라하기", "코스", 5, 0));
 
 		//stub - 동작지정
 		when(bookService.ListAll()).thenReturn(books);  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
@@ -108,7 +108,7 @@ public class BookControllerUnitTest {
 		
 		//given (테스트를 하기 위한 준비)
 		Long id = 1L;
-		Book book = new Book(1L, "자바공부하기", "쌀");
+		Book book = new Book(1L, "자바공부하기", "쌀", 5, 0);
 		
 		//stub - 동작지정
 		when(bookService.Select(id)).thenReturn(book);  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
@@ -134,11 +134,11 @@ public class BookControllerUnitTest {
 		
 		//given (테스트를 하기 위한 준비)
 		Long id = 1L;
-		Book book = new Book(null, "C++ 따라하기", "코스");
+		Book book = new Book(null, "C++ 따라하기", "코스", 5, 0);
 		String content = new ObjectMapper().writeValueAsString(book);  //테스트할 데이터를 json 데이터로 리턴
 		
 		//stub - 동작지정
-		when(bookService.Update(id, book)).thenReturn(new Book(1L, "C++ 따라하기", "코스"));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
+		when(bookService.Update(id, book)).thenReturn(new Book(1L, "C++ 따라하기", "코스", 5, 0));  //지금은 컨트롤러만 테스트 해야하니까 서비스랑레퍼지토리의 값을 미리 예상해서 넣어준다.
 		
 		//when (테스트 실행)
 		ResultActions resultActions = mockMvc.perform(put("/book/{id}", id)

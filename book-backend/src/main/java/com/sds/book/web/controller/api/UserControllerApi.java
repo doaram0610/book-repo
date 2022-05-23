@@ -62,6 +62,17 @@ public class UserControllerApi {
 	
 	@PutMapping("/user/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody User user){
+		log.info("UserControllerApi.update ====================================");
+
+		String rawPassword = user.getUserPwd();
+		log.info("rawPassword="+rawPassword);
+		if(rawPassword != null && !"".equals(rawPassword)) {
+			
+			log.info("변경할 암호 rawPassword2="+rawPassword);
+			
+			String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+			user.setUserPwd(encPassword);
+		}
 		return new ResponseEntity<>(userService.Update(id, user), HttpStatus.OK);
 	}	
 	

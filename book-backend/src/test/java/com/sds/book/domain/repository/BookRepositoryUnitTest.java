@@ -27,7 +27,7 @@ public class BookRepositoryUnitTest {
 	public void save_test() throws Exception {
 		
 		//given (테스트를 하기 위한 준비)
-		Book book = new Book(null, "스프링 따라하기", "코스");
+		Book book = new Book(null, "스프링 따라하기", "코스", 5, 0);
 
 		//when (테스트 실행)
 		Book bookEntity = bookRepository.save(book);

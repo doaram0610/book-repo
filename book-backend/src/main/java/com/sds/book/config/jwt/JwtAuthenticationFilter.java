@@ -110,7 +110,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		//리턴하는 body 값
 		CmResponseDto<User> cmResponseDto = new CmResponseDto<>(200, "성공",  
-				User.builder().userId(principalDetails.getUser().getUserId())
+				User.builder().Id(principalDetails.getUser().getId())
+										.userId(principalDetails.getUser().getUserId())
 										.userName(principalDetails.getUser().getUserName())
 										.role(principalDetails.getUser().getRole())
 										.build()

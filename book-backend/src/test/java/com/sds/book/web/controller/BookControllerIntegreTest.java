@@ -91,7 +91,7 @@ public class BookControllerIntegreTest  extends AbstractControllerTest{
 		log.info("save test start ===================================");
 		
 		//given (테스트를 하기 위한 준비)
-		Book book = new Book(null, "스프링 따라하기", "코스");
+		Book book = new Book(null, "스프링 따라하기", "코스", 5, 0);
 		String content = new ObjectMapper().writeValueAsString(book);  //json 데이터로 리턴
 		
 		//stub - 동작지정
@@ -118,9 +118,9 @@ public class BookControllerIntegreTest  extends AbstractControllerTest{
 		//given (테스트를 하기 위한 준비)
 		//통합테스트는 직접 서버에 붙어서 하기 때문에 when에 db에 있을 값을 입력해 줄 필요가 없다
 		List<Book> books = new ArrayList<>();
-		books.add(new Book(1L, "부트 따라하기", "코스"));
-		books.add(new Book(2L, "리엑트 따라하기", "코스"));	
-		books.add(new Book(3L, "Junit 따라하기", "코스"));	
+		books.add(new Book(1L, "부트 따라하기", "코스", 5, 0));
+		books.add(new Book(2L, "리엑트 따라하기", "코스", 5, 0));	
+		books.add(new Book(3L, "Junit 따라하기", "코스", 5, 0));	
 		bookRepository.saveAll(books);		
 		
 		//stub - 동작지정
@@ -148,9 +148,9 @@ public class BookControllerIntegreTest  extends AbstractControllerTest{
 		//given (테스트를 하기 위한 준비)
 		Long id = 2L;		
 		List<Book> books = new ArrayList<>();		
-		books.add(new Book(null, "부트 따라하기", "코스"));
-		books.add(new Book(null, "리엑트 따라하기", "코스"));
-		books.add(new Book(null, "Junit 따라하기", "코스"));
+		books.add(new Book(null, "부트 따라하기", "코스", 5, 0));
+		books.add(new Book(null, "리엑트 따라하기", "코스", 5, 0));
+		books.add(new Book(null, "Junit 따라하기", "코스", 5, 0));
 		bookRepository.saveAll(books);
 		
 		//stub - 동작지정
@@ -174,13 +174,13 @@ public class BookControllerIntegreTest  extends AbstractControllerTest{
 		
 		//given (테스트를 하기 위한 준비)
 		List<Book> books = new ArrayList<>();		
-		books.add(new Book(null, "부트 따라하기", "코스"));
-		books.add(new Book(null, "리엑트 따라하기", "코스"));
-		books.add(new Book(null, "Junit 따라하기", "코스"));
+		books.add(new Book(null, "부트 따라하기", "코스", 5, 0));
+		books.add(new Book(null, "리엑트 따라하기", "코스", 5, 0));
+		books.add(new Book(null, "Junit 따라하기", "코스", 5, 0));
 		bookRepository.saveAll(books);
 		
 		Long id = 3L;
-		Book book = new Book(null, "C++ 따라하기", "코스");
+		Book book = new Book(null, "C++ 따라하기", "코스", 5, 0);
 		String content = new ObjectMapper().writeValueAsString(book);  //테스트할 데이터를 json 데이터로 리턴
 
 		
@@ -206,9 +206,9 @@ public class BookControllerIntegreTest  extends AbstractControllerTest{
 		
 		//given (테스트를 하기 위한 준비)
 		List<Book> books = new ArrayList<>();		
-		books.add(new Book(null, "부트 따라하기", "코스"));
-		books.add(new Book(null, "리엑트 따라하기", "코스"));
-		books.add(new Book(null, "Junit 따라하기", "코스"));
+		books.add(new Book(null, "부트 따라하기", "코스", 5, 0));
+		books.add(new Book(null, "리엑트 따라하기", "코스", 5, 0));
+		books.add(new Book(null, "Junit 따라하기", "코스", 5, 0));
 		bookRepository.saveAll(books);
 		
 		Long id = 1L;

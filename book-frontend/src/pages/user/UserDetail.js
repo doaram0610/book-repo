@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom'; //react-router-dom버전6 이후부터 props.history.push 사용 못한다
-import { API_BASE_URL } from '../../js/ApiConfig';
-import { siginin } from '../../js/ApiService';
+import { callApi } from '../../js/ApiService';
 
 const UserDetail = () => {
   const params = useParams(); //그냥 useParams()로 받으면 오브젝트이다.
@@ -17,30 +16,31 @@ const UserDetail = () => {
     role: '',
     update: '',
   });
-  const host = API_BASE_URL + '/api';
-
   console.log('user detail', params);
 
   useEffect(() => {
-    fetch(host + '/user/' + params.id)
-      .then((res) => res.json())
+    callApi('/api/user/' + params.id, 'GET')
       .then((res) => {
-        setUser(res);
+        //응답이 정상이면 여기로 리턴받을수 있다
+        setUser(res); //users 객체에 결과값을 담는다
+      })
+      .catch((err) => {
+        console.log('err: ' + err);
       });
   }, []);
 
   const deleteUser = () => {
-    fetch(host + '/user/' + params.id, {
-      method: 'DELETE',
-    })
-      .then((res) => res.text())
+    callApi('/api/user' + params.id, 'DELETE')
       .then((res) => {
-        if (res === 'ok') {
+        if (res.text === 'ok') {
           //props.history.push('/'); //요거 안먹는데 라우터 v6 이후부터 아래처럼 해야됨
           navigate('/userList');
         } else {
           alert('삭제실패');
         }
+      })
+      .catch((err) => {
+        console.log('err: ' + err);
       });
   };
 
