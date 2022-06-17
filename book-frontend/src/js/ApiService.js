@@ -10,8 +10,10 @@ export async function callApi(api, method, request) {
     method: method,
   };
 
+  console.log('request:' + request);
   //POST방식으로 보내는 파라미터가 있는 경우
   if (request) {
+    console.log('options.body:' + request);
     options.body = JSON.stringify(request);
   }
 

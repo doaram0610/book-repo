@@ -18,7 +18,7 @@ public class Book {
 
 	@Id	//PK를 해당 변수로 하겠다는 뜻
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //해당 데이터베이스 번호증가 전략을 따르겠다.
-	private Long Id;
+	private Long bookId;
 	
 	private String title;
 	private String author;
@@ -26,8 +26,8 @@ public class Book {
 	private int  borrow;
 	
 	@Builder
-	public Book(Long Id,  int  borrow) {
-		this.Id = Id;
+	public Book(Long bookId,  int  borrow) {
+		this.bookId = bookId;
 		this.borrow = borrow;		
 	}
 }

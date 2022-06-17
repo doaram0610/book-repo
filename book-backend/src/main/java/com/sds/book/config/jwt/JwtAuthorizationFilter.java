@@ -78,7 +78,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		log.info("jwtHeader.userId : "+userId);
 		
 		//서명이 정상적으로 됨
-		if(userId != null) {
+		if(userId != null) {			
 			User userEntity = userRepository.findByUserId(userId);
 			log.info("DB에서 가져온 사용자정보 : "+userEntity);
 			

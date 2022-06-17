@@ -1,5 +1,7 @@
 package com.sds.book.web.controller.api;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,12 +58,12 @@ public class UserControllerApi {
 	
 //	@CrossOrigin(origins = "*", allowedHeaders = "*") // 컨트롤러에서 설정 //외부에서오는 자바스크립트 요청을 허용해준다.
 	@GetMapping("/user/{id}")
-	public ResponseEntity<?> findById(@PathVariable Long id){
+	public ResponseEntity<?> findById(@PathVariable String id){
 		return new ResponseEntity<>(userService.Select(id), HttpStatus.OK);
 	}	
 	
 	@PutMapping("/user/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody User user){
+	public ResponseEntity<?> update(@PathVariable String id, @RequestBody User user){
 		log.info("UserControllerApi.update ====================================");
 
 		String rawPassword = user.getUserPwd();
@@ -79,7 +81,7 @@ public class UserControllerApi {
 	//제네릭 ? 란 : JDK 1.5부터 도입된 제네릭을 사용하면 컴파일 시에 미리 타입이 정해지므로, 타입 검사나 타입 변환과 같은 번거로운 작업을 생략할 수 있게 됩니다.
 	//<?> : 타입 변수에 모든 타입을 사용할 수 있음
 	@DeleteMapping("/user/{id}")
-	public ResponseEntity<?> deleteById(@PathVariable Long id){
+	public ResponseEntity<?> deleteById(@PathVariable String id){
 		return new ResponseEntity<>(userService.Delete(id), HttpStatus.OK);
 	}	
 }

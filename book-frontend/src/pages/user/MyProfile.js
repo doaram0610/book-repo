@@ -38,7 +38,7 @@ const MyProfile = () => {
     <div>
       <h1>나의 정보</h1>
       <hr />
-      <div className="d-flex justify-content-end">
+      <div class="text-right">
         <Button variant="primary" onClick={updateUser}>
           수정
         </Button>

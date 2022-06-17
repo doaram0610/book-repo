@@ -1,12 +1,13 @@
 package com.sds.book.domain.service;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sds.book.domain.model.User;
 import com.sds.book.domain.repository.UserRepository;
 
-import jdk.internal.org.jline.utils.Log;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,12 +28,15 @@ public class UserService {
 	}
 	
 	public User Save(User user) {
+		
+		String newUserId = UUID.randomUUID().toString().replace("-", "");
+		user.setUserId(newUserId);
 		return userRepository.save(user);
 	}
 	
 	@Transactional(readOnly = true) //readOnly=true 는 JPA의 변경감지 기능을 비활성화해서 내트랜잭션 안에서는 다른 트랜잭션이 UPDATE 를 해도 내 트랜젝션안의 데이터를 유지시켜준다.
 	//단 INSERT 를 한 것에 대해서는 못 막아주긴 한다. 그래두 UPDATE 의 정합성을 유지해주니까 꼭 사용하자
-	public User Select(Long id) {
+	public User Select(String id) {
 			return userRepository.findById(id).orElseThrow(
 //					new Supplier<IllegalArgumentException>() {
 //						public IllegalArgumentException get() {
@@ -43,14 +47,21 @@ public class UserService {
 					); //여기에 람다식 넣으면 왜 에러나는지 함 찾아보자
 	}
 	
+	@Transactional(readOnly = true) //readOnly=true 는 JPA의 변경감지 기능을 비활성화해서 내트랜잭션 안에서는 다른 트랜잭션이 UPDATE 를 해도 내 트랜젝션안의 데이터를 유지시켜준다.
+	//단 INSERT 를 한 것에 대해서는 못 막아주긴 한다. 그래두 UPDATE 의 정합성을 유지해주니까 꼭 사용하자
+	public User SelectByUserId(String userId) {
+			return userRepository.findByUserId(userId);
+	}
+	
 	public java.util.List<User>  ListAll() {
 		return userRepository.findAll();
 	}
 	
 	@Transactional  //서비스 함수가 종료될때 commit 할지 rollback 할지 트랜잭션 관리하겠다.
-	public User Update(Long id, User login) {
+	public User Update(String id, User login) {
 		
 		User userEntity = userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("아이디를 확인해라"));
+		userEntity.setId(login.getId());
 		userEntity.setUserId(login.getUserId());
 		
 		log.info("UserService.Update="+ login.getUserPwd());
@@ -65,7 +76,7 @@ public class UserService {
 	}  //그렇게 되면 마지막 리턴시(함수종료)에 변경된데이터를 받으면서 영속화된데이터를 db 로 갱신(flush)하면서 commit 된다. 이것이 더티체킹이다.
 	
 	@Transactional
-	public String Delete(Long id) {
+	public String Delete(String id) {
 		userRepository.deleteById(id);   //오류가 발생하면 익센션을 타니까 신경쓰지말고 그냥 둔다.
 		 return "ok";
 	}	

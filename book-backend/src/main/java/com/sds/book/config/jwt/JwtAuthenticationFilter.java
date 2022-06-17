@@ -97,7 +97,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String jwtToken = JWT.create()
 				.withSubject("jjang token")		//토큰명 : 크게 의미 없다.
 				.withExpiresAt(new Date(System.currentTimeMillis()+(60000*10)))		//토큰만료시간=현재시간+1초(=1000)/1분(=60000)
-				.withClaim("id", principalDetails.getUser().getId())	//내가 넣고싶은값 넣으면됨
 				.withClaim("userId", principalDetails.getUser().getUserId())
 				.withClaim("userName", principalDetails.getUser().getUserName())
 				.sign(Algorithm.HMAC512("jjang"));		// 서버에서 토큰을 검증할때 이 값으로 확인한다.
@@ -110,7 +109,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		//리턴하는 body 값
 		CmResponseDto<User> cmResponseDto = new CmResponseDto<>(200, "성공",  
-				User.builder().Id(principalDetails.getUser().getId())
+				User.builder().id(principalDetails.getUser().getId())
 										.userId(principalDetails.getUser().getUserId())
 										.userName(principalDetails.getUser().getUserName())
 										.role(principalDetails.getUser().getRole())

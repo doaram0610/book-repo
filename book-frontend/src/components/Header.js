@@ -13,7 +13,7 @@ const Header = () => {
     alert('로그아웃됩니다.');
     dispatcher(userLogout()); //store에 등록된 변수값을 변경하겠다.
     localStorage.removeItem('Authorization'); //로컬저장소에 등록된 토큰을 삭제한다.
-    navigate('/'); //이게 안되네.. 왜 안되지?
+    navigate('/loginForm'); //이게 안되네.. 왜 안되지?
   };
   const goManager = () => {
     let myForm = document.myForm;
@@ -41,7 +41,7 @@ const Header = () => {
                 <Link to={'/myProfile/' + user.id} className="nav-link">
                   나의정보
                 </Link>
-                <Link to={'/myBorrow/' + user.userId} className="nav-link">
+                <Link to={'/myBorrow/' + user.id} className="nav-link">
                   대출현황
                 </Link>
                 <Link to="/bookList" className="nav-link">

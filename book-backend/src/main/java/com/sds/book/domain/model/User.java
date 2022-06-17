@@ -5,13 +5,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,11 +27,15 @@ import lombok.NoArgsConstructor;
 @Data	//getter setter 가 만들어진다.
 public class User {
 
+
 		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private long Id;
-		
+//		@GeneratedValue(generator = "uuid2")
+//		@GenericGenerator(name = "uuid2", strategy = "uuid2")	
+//		@Column(columnDefinition = "BINARY(16)")
+		private String id;
+	
 		private String userId;
+				
 		private String userPwd;
 		private String userName;
 		private String role;
@@ -42,8 +49,8 @@ public class User {
 
 		//builder 패턴을 이용해서 생성할수 있게 해준다.
 		@Builder
-		public User( long Id, String userId, String userPwd, String userName, String role, String provider, String providerId) {
-			this.Id = Id;
+		public User(String id, String userId, String userPwd, String userName, String role, String provider, String providerId) {
+			this.id = id;
 			this.userId = userId;
 			this.userPwd = userPwd;
 			this.userName = userName;

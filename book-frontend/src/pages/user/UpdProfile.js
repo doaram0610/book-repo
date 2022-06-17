@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { callApi } from '../../js/ApiService';
 
@@ -68,7 +68,7 @@ const UpdProfile = () => {
     <>
       <h1>나의 정보</h1>
       <hr />
-      <div className="d-flex justify-content-end">
+      <div class="text-right">
         <Button variant="primary" onClick={submitUser}>
           수정
         </Button>{' '}
@@ -76,7 +76,18 @@ const UpdProfile = () => {
           취소
         </Button>
       </div>
-      <br></br>
+      {/* <Container fluid>
+        <Row>
+          <Col className={'text-right'}>
+            <Button variant="primary" onClick={submitUser}>
+              수정
+            </Button>{' '}
+            <Button variant="secondary" onClick={myProfile}>
+              취소
+            </Button>
+          </Col>
+        </Row>
+      </Container> */}
       <Form>
         <Form.Group className="mb-3" controlId="userId">
           <Form.Label>아이디</Form.Label>
@@ -124,23 +135,15 @@ const UpdProfile = () => {
         <Form.Group className="mb-3" controlId="role">
           <Form.Label>권한</Form.Label>
           <Form.Select
-            aria-label="Default select example"
             name="role"
             onChange={changeValue}
+            key={user.role}
+            defaultValue={user.role}
           >
-            <option>- 선택 -</option>
-            <option value="ROLE_ADMIN" selected={user.role === 'ROLE_ADMIN'}>
-              ADMIN
-            </option>
-            <option
-              value="ROLE_MANAGER"
-              selected={user.role === 'ROLE_MANAGER'}
-            >
-              MANAGER
-            </option>
-            <option value="ROLE_USER" selected={user.role === 'ROLE_USER'}>
-              USER
-            </option>
+            <option value="">- 선택 -</option>
+            <option value="ROLE_ADMIN">ADMIN</option>
+            <option value="ROLE_MANAGER">MANAGER</option>
+            <option value="ROLE_USER">USER</option>
           </Form.Select>
         </Form.Group>
       </Form>

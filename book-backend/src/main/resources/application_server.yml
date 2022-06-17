@@ -1,8 +1,11 @@
 server:
+  port: 5000
   servlet:
+    context-path: /   #요거 몰라...
     encoding:
       charset: utf-8
       enabled: true
+      force: true   #요거 몰라...
 
 logging:
   level:
